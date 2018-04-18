@@ -4,6 +4,11 @@
     "description": "A vs-code Extension to facilitate the creation of complex comments to improve code readbility and structure",
     "version": "0.0.1",
     "publisher": "Makogan",
+    "repository": {
+		"type": "git",
+		"url": "https://github.com/Makogan/Hermes-Comments"
+	},
+"icon": "Assets/icon.png",
     "engines": {
         "vscode": "^1.22.0"
     },
