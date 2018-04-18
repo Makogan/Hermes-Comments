@@ -1,0 +1,76 @@
+{
+    "name": "hermes-comments",
+    "displayName": "Hermes-Comments",
+    "description": "A vs-code Extension to facilitate the creation of complex comments to improve code readbility and structure",
+    "version": "0.0.1",
+    "publisher": "Makogan",
+    "engines": {
+        "vscode": "^1.22.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "activationEvents": [
+        "onCommand:extension.makeCenteredSection",
+        "onCommand:extension.makeLeftSection",
+        "onCommand:extension.makeSeparatorLine",
+        "onCommand:extension.makeSubSection"
+    ],
+    "main": "./out/extension",
+    "contributes": {
+        "keybindings": [
+            {
+                "command": "extension.makeCenteredSection",
+                "key": "alt+shift+p",
+                "when": "editorTextFocus"
+            },
+            {
+                "command": "extension.makeLeftSection",
+                "key": "alt+shift+l",
+                "when": "editorTextFocus"
+            },
+            {
+                "command": "extension.makeSeparatorLine",
+                "key": "alt+shift+;",
+                "when": "editorTextFocus"
+            },
+            {
+                "command": "extension.makeSubSection",
+                "key": "alt+shift+o",
+                "when": "editorTextFocus"
+            }
+        ],
+        "commands": [
+            {
+                "command": "extension.makeCenteredSection",
+                "title": "Make Centered Frame Comment"
+            },
+            {
+                "command": "extension.makeLeftSection",
+                "title": "Make Left Justified Frame Comment"
+            },
+            {
+                "command": "extension.makeSeparatorLine",
+                "title": "Make a separator line"
+            },
+            {
+                "command": "extension.makeSubSection",
+                "title": "Make a subsection comment"
+            }
+        ]
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "postinstall": "node ./node_modules/vscode/bin/install",
+        "test": "npm run compile && node ./node_modules/vscode/bin/test"
+    },
+    "devDependencies": {
+        "typescript": "^2.6.1",
+        "vscode": "^1.1.6",
+        "tslint": "^5.8.0",
+        "@types/node": "^7.0.43",
+        "@types/mocha": "^2.2.42"
+    }
+}
