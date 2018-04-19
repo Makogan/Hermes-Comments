@@ -12,11 +12,13 @@ import * as vscode from 'vscode';
 var maximum = 90;
 var sepChar = '#';
 var frameChar = '=';
+var headChar = '+';
+var fillChar = ' ';
 //########################################################################################
 
 //========================================================================================
 /*                                                                                      *
- * Activate the extansion commands                                                      *
+ * Activate the extension commands                                                      *
  *                                                                                      */
 //========================================================================================
 
@@ -25,6 +27,8 @@ export function activate(context: vscode.ExtensionContext) {
     console.log('Hermes Comments has started');
 
     let cFrame = vscode.commands.registerCommand('extension.makeCenteredSection', () => {
+
+        getSettings();
 
         let success = makeCenteredFramedText();
 
@@ -35,6 +39,7 @@ export function activate(context: vscode.ExtensionContext) {
     });
 
     let lFrame = vscode.commands.registerCommand('extension.makeLeftSection', () => {
+        getSettings();
 
         let success = makeLeftFramedText();
 
@@ -45,6 +50,7 @@ export function activate(context: vscode.ExtensionContext) {
     });
 
     let subs = vscode.commands.registerCommand('extension.makeSubSection', () => {
+        getSettings();
 
         let success = makeSubsectionText();
 
@@ -74,6 +80,16 @@ export function deactivate() {
  * Text processing functions                                                            *
  *                                                                                      */
 //========================================================================================
+
+function getSettings()
+{
+    const config = vscode.workspace.getConfiguration('hermes-comments');
+
+    if(config.has('maximum'))
+    {
+        maximum = config.get('maximum');
+    }
+}
 
 function makeSubsectionText()
 {
@@ -137,10 +153,16 @@ function makeLeftFramedText()
     {
         return false;
     }
+    
+    var frame = frameChar;
+    if(currentLineString.includes('author'))
+    {
+        frame = headChar;
+    }
 
-    let framedText = makeFramingText('=');
+    let framedText = makeFramingText(frame);
     framedText += lJustifyText(currentLineString);
-    framedText += makeFramingText('=');
+    framedText += makeFramingText(frame);
 
     vscode.window.activeTextEditor.edit( textEditorEdit => {
         textEditorEdit.replace(
@@ -163,9 +185,15 @@ function makeCenteredFramedText()
         return false;
     }
 
-    let framedText = makeFramingText(frameChar);
+    var frame = frameChar;
+    if(currentLineString.includes('author'))
+    {
+        frame = headChar;
+    }
+
+    let framedText = makeFramingText(frame);
     framedText += alignText(currentLineString);
-    framedText += makeFramingText(frameChar);
+    framedText += makeFramingText(frame);
 
     vscode.window.activeTextEditor.edit( textEditorEdit => {
         textEditorEdit.replace(
@@ -179,27 +207,13 @@ function makeCenteredFramedText()
 
 function lJustifyText(text)
 {
-    let lines = text.split('\n');
-    let resulText = '';
-
-    for(let index=0; index<lines.length; index++)
+    var extra = '';
+    if(text.includes('/**'))
     {
-        let line = lines[index].trim();
-        let fill = ' ';
-
-        resulText += ' *'+fill+line;
-
-        fill = makeTrailingWS(maximum-resulText.length-2);
-
-        resulText+=fill+'*\n';
+        extra = '*';
     }
-    resulText = '/*' + makeTrailingWS(maximum-4) + '*\n'+resulText +
-        ' *' +makeTrailingWS(maximum-4) + '*/\n';
-    return resulText;
-}
-
-function alignText(text)
-{
+    //text = eraseEmptyLines(text);
+    text = removeCommentChars(text);
     let lines = text.split('\n');
     let resulText = '';
 
@@ -207,26 +221,99 @@ function alignText(text)
     {
         let line = lines[index].trim();
         let length = line.length;
-        let fill = makeTrailingWS((maximum-length)/2 - 2);
 
-        resulText += ' *'+fill+line;
-        if(length%2!==0)
+        if(length>0 && line !=='*')
         {
-            fill = fill.substr(0,fill.length-1);
+            let fill = ' ';
+
+            var nLine = ' *'+fill+line;
+            resulText += nLine;
+
+            fill = makeTrailingWS(maximum-nLine.length-2);
+
+            resulText+=fill+'*\n';
         }
-        resulText+=fill+'*\n';
     }
-    resulText = '/*' + makeTrailingWS(maximum-4) + '*\n'+resulText +
+    resulText = '/*'+ extra + makeTrailingWS(maximum-4 - extra.length) + '*\n'+resulText +
         ' *' +makeTrailingWS(maximum-4) + '*/\n';
     return resulText;
 }
+
+function alignText(text)
+{
+    var extra = '';
+    if(text.substr(0,3)==='/**')
+    {
+        extra = '*';
+    }
+    //text = eraseEmptyLines(text);
+    text = removeCommentChars(text);
+    let lines = text.split('\n');
+    let resulText = '';
+
+    for(let index=0; index<lines.length; index++)
+    {
+        let line = lines[index].trim();
+        if(lines[index]==='')
+        {
+            line = ' ';
+        }
+        let length = line.length;
+
+        if(length>0 && line !=='*')
+        {
+            let fill = makeTrailingWS((maximum-length)/2 - 2);
+
+            resulText += ' *'+fill+line;
+            if(length%2!==0)
+            {
+                fill = fill.substr(0,fill.length-1);
+            }
+            resulText+=fill+'*\n';
+        }
+    }
+    resulText = '/*'+extra + makeTrailingWS(maximum-4-extra.length) + '*\n'+resulText +
+        ' *' +makeTrailingWS(maximum-4) + '*/\n';
+    return resulText;
+}
+
+function removeCommentChars(text)
+{
+    let lines = text.split('\n');
+
+    let result = '';
+    for(let index=0; index<lines.length; index++)
+    {
+        var line = lines[index].trim();
+
+        if((line.substr(0,2)).includes('*'))
+        {
+            if(line.substr(line.length-2, 2).includes('*'))
+            {
+                result += line.substr(2,line.length-4) + '\n';
+            }
+            else
+            {
+                result += line.substr(2,line.length-2) + '\n';
+            }
+        }
+        else if(!line.includes('//' + frameChar + frameChar + frameChar + frameChar)
+            && !line.includes('//'+headChar + headChar + headChar + headChar))
+       {
+            result += line + '\n';
+       }
+    }
+
+    return result;
+}
+
 
 function makeTrailingWS(tLength)
 {
     let trailing = '';
     for(let index=0; index < tLength; index++)
     {
-        trailing+=' ';
+        trailing+=fillChar;
     }
 
     return trailing;

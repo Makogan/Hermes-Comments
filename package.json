@@ -1,19 +1,19 @@
 {
     "name": "hermes-comments",
     "displayName": "Hermes-Comments",
-    "description": "A vs-code Extension to facilitate the creation of complex comments to improve code readbility and structure",
-    "version": "0.0.1",
+    "description": "A vs-code Extension to facilitate the creation of complex comments to improve code readability and structure",
+    "version": "0.0.2",
     "publisher": "Makogan",
     "repository": {
 		"type": "git",
 		"url": "https://github.com/Makogan/Hermes-Comments"
 	},
-"icon": "Assets/icon.png",
+    "icon": "Assets/icon.png",
     "engines": {
         "vscode": "^1.22.0"
     },
     "categories": [
-        "Other"
+        "Formatters"
     ],
     "activationEvents": [
         "onCommand:extension.makeCenteredSection",
@@ -62,7 +62,20 @@
                 "command": "extension.makeSubSection",
                 "title": "Make a subsection comment"
             }
-        ]
+        ],
+        "configuration": {
+            "type": "object",
+            "title": "Hermes Comments settings",
+            "properties":
+            {
+                "hermes-comments.maximum":
+                {
+                    "type": ["integer"],
+                    "default": 90,
+                    "description": "The level of alignment, how far the titles will extend horizontally"
+                }
+            }
+        }
     },
     "scripts": {
         "vscode:prepublish": "npm run compile",
