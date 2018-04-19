@@ -34,6 +34,24 @@ The shortcuts are:
 ![left comment](Assets/bar.png)
 >The separator bar, created with `alt+shift+;` (; is the actual ';' key)
 
+## Customizing the comments
+
+You can decide which characters will be used to create the comments using the settings, just copy paste the following lines into your settings.json file:
+
+    "hermes-comments.maximum": 50,
+    "hermes-comments.fill": "-",
+    "hermes-comments.frame": "^",
+    "hermes-comments.title": "`",
+    "hermes-comments.separator": "$",
+
+`maximum` is the maximum level of alignment , i.e the horizontal width fo a title.
+
+`fill` is the character used ot fill the empty space in a frame.
+
+When a comment contains the substring `author` the frame is different. `title` defines the character used for autorship frames.
+
+`separator` defines the character used for the separator bar.
+
 ## Known Issues
 
 Applying the commands twice eliminates empty lines in between text
@@ -42,6 +60,12 @@ It won't handle comments whose length is bigger than the maximum length of chara
 
 ## Release Notes
 ----
+### 1.0.1
+
+- Added support for pre-existing comments.
+- Added the option to customize the characters used to make a frame.
+- Added a special frame that is created for comments containing the word `author`
+
 ### 1.0.0
 
 Initial release of hermes comments
