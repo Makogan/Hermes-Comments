@@ -22,6 +22,7 @@ And subsection titles:
 > To create a complex comment all you need is to highlight the desired text and use one of the shortcuts.
 
 Support for modifying pre-existing comments
+
 ![left comment](Assets/comments.gif)
 
 The shortcuts are:
