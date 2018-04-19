@@ -2,7 +2,7 @@
     "name": "hermes-comments",
     "displayName": "Hermes-Comments",
     "description": "A vs-code Extension to facilitate the creation of complex comments to improve code readability and structure",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "publisher": "Makogan",
     "repository": {
 		"type": "git",

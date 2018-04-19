@@ -281,6 +281,11 @@ function makeCenteredFramedText()
 
 function lJustifyText(text)
 {
+    var last = '*';
+    if(text.includes('@') || text.includes('\\'))
+    {
+        last = '';
+    }
     var extra = '';
     if(text.includes('/**'))
     {
@@ -299,9 +304,16 @@ function lJustifyText(text)
         var nLine = ' *'+fill+line;
         resulText += nLine;
 
-        fill = makeTrailingWS(maximum-nLine.length-2);
+        if(last === '*')
+        {
+            fill = makeTrailingWS(maximum-nLine.length-2);
+        }
+        else
+        {
+            fill = '';
+        }
 
-        resulText+=fill+'*\n';
+        resulText+=fill+last+'\n';
     }
     resulText = '/*'+ extra + makeTrailingWS(maximum-4 - extra.length) + '*\n'+resulText +
         ' *' +makeTrailingWS(maximum-4) + '*/\n';
@@ -310,6 +322,11 @@ function lJustifyText(text)
 
 function alignText(text)
 {
+    var last = '*';
+    if(text.includes('@') || text.includes('\\'))
+    {
+        last = '';
+    }
     var extra = '';
     if(text.includes('/**'))
     {
@@ -334,7 +351,13 @@ function alignText(text)
         {
             fill = fill.substr(0,fill.length-1);
         }
-        resulText+=fill+'*\n';
+        
+        if(last!=='*')
+        {
+            fill = '';
+        }
+
+        resulText+=fill+last+'\n';
     }
     resulText = '/*'+extra + makeTrailingWS(maximum-4-extra.length) + '*\n'+resulText +
         ' *' +makeTrailingWS(maximum-4) + '*/\n';

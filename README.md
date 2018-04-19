@@ -1,6 +1,8 @@
 # ![](Assets/result.png)  Hermes Comments 
 
-Hermes Comments is a simple visual studio extension that I created to help structure C and C++ code (and other languages using // and /**/ comments). It's purpose is to automate the creation of more visually complex comments to structure and document code.
+Hermes Comments is a simple visual studio extension that I created to help structure C and 
+C++ code (and other languages using // and /**/ comments). It's purpose is to automate the 
+creation of more visually complex comments to structure and document code.
 
 ## Features
 
@@ -19,7 +21,8 @@ Subsection titles:
 
 ![left comment](Assets/sub.gif)
 
-> To create a complex comment all you need is to highlight the desired text and use one of the shortcuts.
+> To create a complex comment all you need is to highlight the desired text and use one 
+of the shortcuts.
 
 Support for modifying pre-existing comments
 
@@ -41,7 +44,8 @@ The shortcuts are:
 
 ## Customizing the comments
 
-You can decide which characters will be used to create the comments using the settings, just copy paste the following lines into your settings.json file:
+You can decide which characters will be used to create the comments using the settings, 
+just copy paste the following lines into your settings.json file:
 
     "hermes-comments.maximum": 50,
     "hermes-comments.fill": "-",
@@ -53,18 +57,28 @@ You can decide which characters will be used to create the comments using the se
 
 `fill` is the character used to fill the empty space in a frame.
 
-When a comment contains the substring `author` the frame is different. `title` defines the character used for autorship frames.
+When a comment contains the special characters `@` or `\` the frame is different. 
+
+`title` defines the character used for Doxygen documented frames.
 
 `separator` defines the character used for the separator bar.
 
 ## Known Issues
 
-It won't handle comments whose length is bigger than the maximum length of characters (90 by default).
+It won't handle comments whose length is bigger than the maximum length of characters 
+(90 by default).
 
-None more known, please report bugs, issues and feature requests to the [github repository](https://github.com/Makogan/Hermes-Comments "Hermes Comments").
+None more known, please report bugs, issues and feature requests to the 
+[github repository](https://github.com/Makogan/Hermes-Comments "Hermes Comments").
 
 ## Release Notes
 ----
+### 1.0.3
+
+- Modified the way the special comments are generated to prevent them from messing 
+the Doxygen documentation.
+
+
 ### 1.0.2
 
 - Corrected a bug where spacing lines would get deleted
