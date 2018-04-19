@@ -25,7 +25,7 @@ Support for modifying pre-existing comments
 
 ![left comment](Assets/comments.gif)
 
-Separator bar to help distiguish important breaks in the code
+Separator bar to help distinguish important breaks in the code
 
 ![left comment](Assets/bar.png)
 

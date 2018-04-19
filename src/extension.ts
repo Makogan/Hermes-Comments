@@ -7,7 +7,6 @@
 'use strict';
 
 import * as vscode from 'vscode';
-import { DH_NOT_SUITABLE_GENERATOR } from 'constants';
 //import {window, commands, Disposable, ExtensionContext, StatusBarAlignment, StatusBarItem, TextDocument} from 'vscode';
 
 var maximum = 90;
@@ -294,7 +293,6 @@ function lJustifyText(text)
     for(let index=0; index<lines.length; index++)
     {
         let line = lines[index].trim();
-        let length = line.length;
 
         let fill = ' ';
 
