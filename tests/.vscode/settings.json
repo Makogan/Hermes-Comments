@@ -1,3 +1,7 @@
 {
-    "hermes-comments.maximum": 90
+    "hermes-comments.maximum": 50,
+    "hermes-comments.fill": "-",
+    "hermes-comments.frame": "^",
+    "hermes-comments.title": "`",
+    "hermes-comments.separator": "$",
 }

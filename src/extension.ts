@@ -89,6 +89,22 @@ function getSettings()
     {
         maximum = config.get('maximum');
     }
+    if(config.has('frame'))
+    {
+        frameChar = config.get('frame');
+    }
+    if(config.has('title'))
+    {
+        headChar = config.get('title');
+    }
+    if(config.has('separator'))
+    {
+        sepChar = config.get('separator');
+    }
+    if(config.has('fill'))
+    {
+        fillChar = config.get('fill');
+    }
 }
 
 function makeSubsectionText()

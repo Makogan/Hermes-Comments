@@ -73,6 +73,30 @@
                     "type": ["integer"],
                     "default": 90,
                     "description": "The level of alignment, how far the titles will extend horizontally"
+                },
+                "hermes-comments.frame":
+                {
+                    "type": ["string"],
+                    "default": "=",
+                    "description": "The character used to decorate the frame"
+                },
+                "hermes-comments.fill":
+                {
+                    "type": ["string"],
+                    "default": " ",
+                    "description": "The character used to fill the empty space in a frame"
+                },
+                "hermes-comments.separator":
+                {
+                    "type": ["string"],
+                    "default": "#",
+                    "description": "The character used for the separator bar"
+                },
+                "hermes-comments.title":
+                {
+                    "type": ["string"],
+                    "default": "+",
+                    "description": "The character used to decorate the author frame"
                 }
             }
         }

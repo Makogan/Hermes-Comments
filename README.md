@@ -21,6 +21,9 @@ And subsection titles:
 
 > To create a complex comment all you need is to highlight the desired text and use one of the shortcuts.
 
+Support for modifying pre-existing comments
+![left comment](Assets/comments.gif)
+
 The shortcuts are:
 
 * `alt+shit+p` Creates a centered title 
@@ -33,9 +36,9 @@ The shortcuts are:
 
 ## Known Issues
 
-Currently the way the comment is generated is not smart. It will modify your comments following the same set of rules, so it's not advisable to try to modify existing comments (for example doxygen documentation comments).
+Applying the commands twice eliminates empty lines in between text
 
-It won't handle comments whose length is bigger than 90 characters.
+It won't handle comments whose length is bigger than the maximum length of characters (90 by default).
 
 ## Release Notes
 ----
