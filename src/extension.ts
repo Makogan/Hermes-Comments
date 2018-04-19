@@ -7,6 +7,7 @@
 'use strict';
 
 import * as vscode from 'vscode';
+import { DH_NOT_SUITABLE_GENERATOR } from 'constants';
 //import {window, commands, Disposable, ExtensionContext, StatusBarAlignment, StatusBarItem, TextDocument} from 'vscode';
 
 var maximum = 90;
@@ -75,6 +76,8 @@ export function deactivate() {
 }
 //########################################################################################
 
+
+
 //========================================================================================
 /*                                                                                      *
  * Text processing functions                                                            *
@@ -105,6 +108,62 @@ function getSettings()
     {
         fillChar = config.get('fill');
     }
+}
+
+function cleanText(text)
+{
+    var lines = text.split('\n');
+
+    var result = '';
+
+    var end = lines[lines.length-1] === ''? lines.length-1: lines.length;
+    for(var i=0; i<end; i++)
+    {
+        result += cleanLine(lines[i]);
+    }
+
+    if(result.charAt(result.length-1)==='\n')
+    {
+        result = result.substr(0,result.length-1);
+    }
+    return result;
+}
+function cleanLine(line)
+{
+    line = line.trim();
+    var nLine = '\n';
+    if(line.includes('*/'))
+    {
+        line = '';
+        nLine = '';
+    }
+    if(line.includes('/**'))
+    {
+        line = '';
+        nLine = '';
+    }  
+    else if(line.includes('/*'))
+    {
+        line = '';
+        nLine = '';
+    }
+    else if(line.substr(0,1)==='*')
+    {
+        line = line.substr(1,line.length-1);
+    }
+
+    if(line.substr(line.length-1)==='*')
+    {
+        line = line.substr(0,line.length-2);
+    }
+
+    if(line.includes('//'+headChar+headChar) || line.includes('//'+frameChar+frameChar))
+    {
+        line = '';
+        nLine = '';
+    }
+
+    return line + nLine;
 }
 
 function makeSubsectionText()
@@ -228,8 +287,7 @@ function lJustifyText(text)
     {
         extra = '*';
     }
-    //text = eraseEmptyLines(text);
-    text = removeCommentChars(text);
+    text = cleanText(text);
     let lines = text.split('\n');
     let resulText = '';
 
@@ -238,17 +296,14 @@ function lJustifyText(text)
         let line = lines[index].trim();
         let length = line.length;
 
-        if(length>0 && line !=='*')
-        {
-            let fill = ' ';
+        let fill = ' ';
 
-            var nLine = ' *'+fill+line;
-            resulText += nLine;
+        var nLine = ' *'+fill+line;
+        resulText += nLine;
 
-            fill = makeTrailingWS(maximum-nLine.length-2);
+        fill = makeTrailingWS(maximum-nLine.length-2);
 
-            resulText+=fill+'*\n';
-        }
+        resulText+=fill+'*\n';
     }
     resulText = '/*'+ extra + makeTrailingWS(maximum-4 - extra.length) + '*\n'+resulText +
         ' *' +makeTrailingWS(maximum-4) + '*/\n';
@@ -258,12 +313,11 @@ function lJustifyText(text)
 function alignText(text)
 {
     var extra = '';
-    if(text.substr(0,3)==='/**')
+    if(text.includes('/**'))
     {
         extra = '*';
     }
-    //text = eraseEmptyLines(text);
-    text = removeCommentChars(text);
+    text = cleanText(text);
     let lines = text.split('\n');
     let resulText = '';
 
@@ -275,54 +329,19 @@ function alignText(text)
             line = ' ';
         }
         let length = line.length;
+        let fill = makeTrailingWS((maximum-length)/2 - 2);
 
-        if(length>0 && line !=='*')
+        resulText += ' *'+fill+line;
+        if(length%2!==0)
         {
-            let fill = makeTrailingWS((maximum-length)/2 - 2);
-
-            resulText += ' *'+fill+line;
-            if(length%2!==0)
-            {
-                fill = fill.substr(0,fill.length-1);
-            }
-            resulText+=fill+'*\n';
+            fill = fill.substr(0,fill.length-1);
         }
+        resulText+=fill+'*\n';
     }
     resulText = '/*'+extra + makeTrailingWS(maximum-4-extra.length) + '*\n'+resulText +
         ' *' +makeTrailingWS(maximum-4) + '*/\n';
     return resulText;
 }
-
-function removeCommentChars(text)
-{
-    let lines = text.split('\n');
-
-    let result = '';
-    for(let index=0; index<lines.length; index++)
-    {
-        var line = lines[index].trim();
-
-        if((line.substr(0,2)).includes('*'))
-        {
-            if(line.substr(line.length-2, 2).includes('*'))
-            {
-                result += line.substr(2,line.length-4) + '\n';
-            }
-            else
-            {
-                result += line.substr(2,line.length-2) + '\n';
-            }
-        }
-        else if(!line.includes('//' + frameChar + frameChar + frameChar + frameChar)
-            && !line.includes('//'+headChar + headChar + headChar + headChar))
-       {
-            result += line + '\n';
-       }
-    }
-
-    return result;
-}
-
 
 function makeTrailingWS(tLength)
 {

@@ -7,7 +7,7 @@ Hermes Comments is a simple visual studio extension that I created to help struc
 Using shortcuts you can now turn a selected text into one of three
 possible formats, centered, left justified or subsection.
 
-So far the extension supports lef justified section titles:
+Left justified section titles:
 
 ![left comment](Assets/Left.gif)
 
@@ -15,7 +15,7 @@ Centered section titles:
 
 ![left comment](Assets/Centered.gif)
 
-And subsection titles:
+Subsection titles:
 
 ![left comment](Assets/sub.gif)
 
@@ -25,15 +25,19 @@ Support for modifying pre-existing comments
 
 ![left comment](Assets/comments.gif)
 
+Separator bar to help distiguish important breaks in the code
+
+![left comment](Assets/bar.png)
+
+>The separator bar, created with `alt+shift+;` (; is the actual ';' key)
+
+
 The shortcuts are:
 
 * `alt+shit+p` Creates a centered title 
 * `alt+shift+l` Creates a left justified title 
 * `alt+shift+o`   Creates a subtitle
 * `alt+shift+;` Creates a separator line
-
-![left comment](Assets/bar.png)
->The separator bar, created with `alt+shift+;` (; is the actual ';' key)
 
 ## Customizing the comments
 
@@ -47,7 +51,7 @@ You can decide which characters will be used to create the comments using the se
 
 `maximum` is the maximum level of alignment , i.e the horizontal width of a title.
 
-`fill` is the character used ot fill the empty space in a frame.
+`fill` is the character used to fill the empty space in a frame.
 
 When a comment contains the substring `author` the frame is different. `title` defines the character used for autorship frames.
 
@@ -55,12 +59,16 @@ When a comment contains the substring `author` the frame is different. `title` d
 
 ## Known Issues
 
-Applying the commands twice eliminates empty lines in between text
-
 It won't handle comments whose length is bigger than the maximum length of characters (90 by default).
+
+None more known, please report bugs, issues and feature requests to the [github repository](https://github.com/Makogan/Hermes-Comments "Hermes Comments").
 
 ## Release Notes
 ----
+### 1.0.2
+
+- Corrected a bug where spacing lines would get deleted
+
 ### 1.0.1
 
 - Added support for pre-existing comments.
