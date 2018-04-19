@@ -44,7 +44,7 @@ You can decide which characters will be used to create the comments using the se
     "hermes-comments.title": "`",
     "hermes-comments.separator": "$",
 
-`maximum` is the maximum level of alignment , i.e the horizontal width fo a title.
+`maximum` is the maximum level of alignment , i.e the horizontal width of a title.
 
 `fill` is the character used ot fill the empty space in a frame.
 
